@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+
+<head>
+    <title>Char-Estimate</title>
+</head>
+
+<body>
+    <h1>Char-Estimate</h1>
+    <br>
+    <br>
+    <h4 style="font-family: 'Poppins', sans-serif;">Try to guess the secret word!</h4>
+    <div class="my-form" id="myForm">
+        <form>
+            <div class="form-goup" style="margin-left: 70px;">
+                <label style="font-family: 'Poppins', sans-serif;">Guess the letter</label>
+                <input type="text" id="charGuess" name="charGuess" style="font-family: 'Poppins', sans-serif;">
+                <button type="button" id="charGuessButton" onclick="guessCharacter()"
+                    style="font-family: 'Poppins', sans-serif;">Guess Letter</button>
+            </div>
+
+            <div class="form-group2" style="margin-left: 70px;">
+                <br>
+                <br>
+                <label style="font-family:'Poppins', sans-serif;">Do you know the full word? Give it a shot!</label>
+                <input type="text" id="wordGuess" name="wordGuess" style="font-family: 'Poppins', sans-serif;">
+                <button type="button" id="wordGuessButton" onclick="guessWord()"
+                    style="font-family: 'Poppins', sans-serif;">Guess Word</button>
+            </div>
+        </form>
+    </div>
+
+    <p id="showProgress"></p>
+    <p id="guessMessage"></p>
+    <p id="numGuessesLeft"></p>
+
+    <div class="form-group3" style="margin-left:70px">
+        <br>
+        <button type="button" id="wordRestButton" onclick="guessWord()"
+            style="font-family: 'Poppins', sans-serif;">Reset</button>
+    </div>
+
+    <script>
+        "use strict"
+        let secretWord = "JOSHUA"; //you may change this to any word
+        let progress = []; //stores _ for unguessed letter
+        let progressMessage = ""; //used to print off progress
+        let numLetters = secretWord.length;
+        let numGuesses = 5;
+        let numGuessesLetters = ""; //keeps track of all the letters the user has guessed 
+
+        startGame();
+
+        //called when the user presses the Guess Character button
+        function guessCharacter() {
+            let letter = document.getElementById("charGuess").value;
+            document.getElementById("charGuess").value = ""; //remove the character guess from the form
+
+            //checks if the user has already guessed the letter 
+            //if yes, display a message saying user has already guessed the letter 
+            //then gets out a function
+            if (checkCharGuessed(letter)) {
+                document.getElementById("guessMessage").innerHTML = "You've already passed" + letter + ".Try another letter";
+                return;
+            }
+
+            /*If the letter is in the secret word, then display message saying letter is in the word
+            find the indices of where the letter is update progress array so that if the letter is in
+            index i, then replace "_" with the letter update progressMessage to be able to show user 
+            where the guessed letter appears in the word check if the whole word is guessed, if yes,
+            call gameWon() if the letter is not in the secret word diplay and call updateProgressMessage()*/
+            if (secretWord.includes(letter)) {
+                document.getElementById("guessMessage").innerHTML = letter + " is in the word!";
+                let found = findLetterIndices(letter); //array of indices where letter is in secret string
+                for (let j = 0; j < numLetters; j++) {
+                    if (found.includes(j)) {
+                        progress[j] = letter;
+                    }
+                }
+                progressMessage = progress.join(" ")
+
+                document.getElementById("showProgress").innerHTML = progressMessage;
+
+                //if the whole word is guessed, then the user wins
+                if (!progress.includes("secretWord")) {
+                    gameWon();
+                }
+            } else {
+                document.getElementById("guessMessage").innerHTML = "No, guess again";
+                updateProgressMessage();
+            }
+
+        }
+
+        function guessWord() {
+            /*Question 6*/
+        }
+
+        function startGame() {
+            /*Question 1*/
+            for (let x = 0; x < numLetters; x++) {
+                progress.push("_");
+            }
+            updateProgressMessage();
+        }
+
+        function checkCharGuessed(charGuess) {
+            /*Question 2*/
+            /*
+            if charGuess is in guessedLetters (use indexOf) >=0
+              return true
+
+            else 
+              add the letter to the string
+
+              return false
+            */
+        }
+
+        function findLetterIndices(charGuess) {
+            /*Question 3*/
+            let positions = [];
+            /*
+            Loop through letters of secretWord
+              if the current letter is charGuess
+                 add the position to an array
+            return array
+            */
+            for (let x = 0; x < numLetters; x++) {
+                if (secretWord.charAt(x) == charGuess) {
+                    positions.push(x);
+                }
+            }
+            return positions;
+        }
+
+        function gameWon() {
+            /*Question 4*/
+        }
+
+        function updateProgressMessage() {
+            /*Question 5*/
+            progressMessage = progress.join(" ")
+
+            document.getElementById("showProgress").innerHTML = progressMessage;
+        }
+    </script>
+</body>
+
+<body>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2>What is the purpose of this game?</h2>
+</body>
+
+<style>
+    h2 {
+        text-align: center;
+        font-family: 'Poppins', sans-serif;
+        color: white;
+    }
+</style>
+
+<body>
+    <br>
+    <br>
+    <div class="paragraph">
+        <p>CharEstimate is a word game created and developed by Joshua Olivier.
+            This game consists of a section where you have to guess the letter
+            (which can be a vowel or a consonant, but it depends on the word).
+            When you press the "Guess the letter" button, it will tell you
+            whether or not you have guessed the letters correctly. 
+            Below that,there is another section that you can use if you want to 
+            guess the full word. Think of it as a Wordle.<img src="photo.png" width="270" height="270"> 
+            In these two sections 
+            there are textboxes that you can utilize in order to write the letter or the
+            full word. At the bottom, you can see the underscores, and those underscores
+            tell you how many letters are in the word. One thing that you have to know is 
+            that you can modify the word and the underscores. However, the process 
+            needs to be edited with the HTML and CSS from the source code, which is on 
+            a separate file. I think you should give it a try because it's a very
+            fun/interesting game. I hope you enjoy it! 🙂 
+        </p>
+    </div>
+</body>
+
+</html>
